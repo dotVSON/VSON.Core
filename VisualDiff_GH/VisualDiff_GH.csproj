@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <Version>1.0</Version>
+    <Title>VisualDiff_GH</Title>
+    <Description>Description of VisualDiff_GH</Description>
+    <TargetExt>.gha</TargetExt>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="DiffEngine" Version="11.4.1" />
+    <PackageReference Include="Grasshopper" Version="7.13.21348.13001" IncludeAssets="compile;build" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  
+  <PropertyGroup Condition="$(Configuration) == 'Debug' AND $([MSBuild]::IsOSPlatform(Windows))">
+    <StartProgram>C:\Program Files\Rhino 7\System\Rhino.exe</StartProgram>
+    <StartArguments>/nosplash /runscript="_-Grasshopper Banner Disable Window Load Window Show _Enter</StartArguments>
+    <StartAction>Program</StartAction>
+  </PropertyGroup>
+  
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="if $(Configuration) == Debug ( Copy &quot;$(TargetPath)&quot; &quot;%25AppData%25\Grasshopper\Libraries\VisualDiff_GH.gha&quot; )" />
+    <Exec Command="if $(Configuration) == Debug ( Copy &quot;$(TargetPath)&quot; &quot;%25AppData%25\Grasshopper\Libraries\VisualDiff_GH.dll&quot; )" />
+  </Target>
+
+</Project>
