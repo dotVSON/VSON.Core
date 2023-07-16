@@ -45,12 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IVsonComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VsonComponent.cs" />
     <Compile Include="VsonComponentType.cs" />
     <Compile Include="VsonDocument.cs" />
-    <Compile Include="VsonDocumentAttributes.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
