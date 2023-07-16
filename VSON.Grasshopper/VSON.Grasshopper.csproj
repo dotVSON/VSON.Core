@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <Version>1.0</Version>
+    <Title>VSON.Grasshopper</Title>
+    <Description>Description of VSON.Grasshopper</Description>
+    <TargetExt>.gha</TargetExt>
+    <BaseOutputPath>bin\</BaseOutputPath>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Grasshopper" Version="7.13.21348.13001" IncludeAssets="compile;build" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\VSON\VSON.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  
+  <PropertyGroup Condition="$(Configuration) == 'Debug' AND $([MSBuild]::IsOSPlatform(Windows))">
+    <StartProgram>C:\Program Files\Rhino 7\System\Rhino.exe</StartProgram>
+    <StartArguments>/nosplash /runscript="_-Grasshopper Banner Disable Window Load Window Show _Enter</StartArguments>
+    <StartAction>Program</StartAction>
+  </PropertyGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="if $(Configuration) == Debug ( Copy &quot;$(TargetPath)&quot; &quot;%25AppData%25\Grasshopper\Libraries\VSON.Grasshopper.gha&quot; )" />
+  </Target>
+
+</Project>

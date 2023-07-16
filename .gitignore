@@ -400,3 +400,4 @@ FodyWeavers.xsd
 # Local
 local/
 .local/
+*.vson
