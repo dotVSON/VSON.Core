@@ -5,7 +5,7 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VSON.Grasshopper", "VSON.Grasshopper.csproj", "{EC916CA2-8BA3-40A1-A03E-537617F37063}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSON", "..\VSON\VSON.csproj", "{02F79601-71AA-4FF3-B9C9-56355AF71576}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSON.Core", "..\VSON.Core\VSON.Core.csproj", "{02F79601-71AA-4FF3-B9C9-56355AF71576}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

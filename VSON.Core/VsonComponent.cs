@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Text;
 
-namespace VSON
+namespace VSON.Core
 {
     [Serializable]
     public class VsonComponentAttributes

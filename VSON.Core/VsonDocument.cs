@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using System.Linq;
 using System.ComponentModel;
 
-namespace VSON
+namespace VSON.Core
 {
     [Serializable]
     public class VsonDocument

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VSON.Diff
+namespace VSON.Core.Diff
 {
     [Serializable]
     public class DiffChange

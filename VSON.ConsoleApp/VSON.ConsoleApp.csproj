@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VSON\VSON.csproj" />
+    <ProjectReference Include="..\VSON.Core\VSON.Core.csproj" />
   </ItemGroup>
 
 </Project>

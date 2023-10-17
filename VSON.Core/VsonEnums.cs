@@ -1,4 +1,4 @@
-﻿namespace VSON
+﻿namespace VSON.Core
 {
     public enum VsonComponentType
     { 

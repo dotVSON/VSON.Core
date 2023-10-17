@@ -8,7 +8,7 @@ namespace VSON.Grasshopper.Components
     {
         #region Constructor
         public ExportVson_Component() : base("ExportVson", "ExportVson", "", "Util", "VSON") { }
-        #region Constructor
+        #endregion Constructor
 
         #region Properties
         protected override System.Drawing.Bitmap Icon { get => null; }

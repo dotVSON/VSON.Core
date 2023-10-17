@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Grasshopper.GUI.Canvas;
 using System.Drawing;
+using VSON.Core;
 
 namespace VSON.Grasshopper
 {

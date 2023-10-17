@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Grasshopper.Kernel;
+using VSON.Core;
 
 namespace VSON.Grasshopper
 {
