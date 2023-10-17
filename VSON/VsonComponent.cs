@@ -4,9 +4,18 @@ using System.Drawing;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Linq;
+using System.Text;
 
 namespace VSON
 {
+    [Serializable]
+    public class VsonComponentAttributes
+    {
+
+    }
+
+
     [Serializable]
     public class VsonComponent
     {
@@ -58,5 +67,47 @@ namespace VSON
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
         #endregion Methods
+    
+        public string GetHashString()
+        {
+            StringBuilder hash = new StringBuilder();
+            foreach (System.Reflection.PropertyInfo property in this.GetType().GetProperties())
+            {
+                hash.Append(property.GetValue(this));
+            }
+            return hash.ToString();
+        }
+
+        public static bool QuickCheck(VsonComponent componentA, VsonComponent componentB)
+        {
+            return componentA.GetHashString().Equals(componentB.GetHashString());
+        }
+        
+        public static string DeepCheck(VsonComponent componentA, VsonComponent componentB)
+        {
+            StringBuilder status = new StringBuilder();
+
+            foreach (System.Reflection.PropertyInfo property in componentA.GetType().GetProperties())
+            {
+                var valA = property.GetValue(componentA);
+                var valB = property.GetValue(componentB);
+
+                if (valA == null && valB != null)
+                {
+                    status.AppendLine($"[A] : {property.Name}");
+                }
+                else if (valA != null && valB == null)
+                {
+                    status.AppendLine($"[R] : {property.Name}");
+                }
+                
+                else if (property.GetValue(componentA) != property.GetValue(componentB))
+                {
+                    status.AppendLine($"[M] : {property.Name}");
+                }
+            }
+
+            return status.ToString();
+        }
     }
 }

@@ -3,6 +3,8 @@ using System.IO;
 using System.Drawing;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Linq;
+using System.ComponentModel;
 
 namespace VSON
 {
@@ -21,6 +23,8 @@ namespace VSON
         public string FilePath { get; set; }
 
         public List<VsonComponent> Components { get; set; }
+        
+        public IEnumerable<Guid> ComponentIDs { get => this.Components.Select(component => component.ComponentGuid); }
         #endregion Properties
 
         #region Methods
