@@ -22,4 +22,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VSON.Core\VSON.Core.csproj" />
+  </ItemGroup>
+
 </Project>

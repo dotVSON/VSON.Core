@@ -45,8 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Diff\DocumentComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Svg\SvgBezierCurve.cs" />
+    <Compile Include="Svg\SvgCircle.cs" />
+    <Compile Include="Svg\SvgRectangle.cs" />
+    <Compile Include="Svg\SvgStyle.cs" />
+    <Compile Include="Svg_Test.cs" />
+    <Compile Include="Svg\SvgBaseElement.cs" />
     <Compile Include="VsonComponent.cs" />
     <Compile Include="VsonEnums.cs" />
     <Compile Include="VsonDocument.cs" />
@@ -58,6 +63,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(Configuration) == Debug (Copy "$(TargetPath)" "%25AppData%25\Grasshopper\Libraries\VSON.Core.dll")</PostBuildEvent>
+    <PostBuildEvent>if $(Configuration) == "Debug" (Copy "$(TargetPath)" "%25AppData%25\Grasshopper\Libraries\VSON.Core.dll")</PostBuildEvent>
   </PropertyGroup>
 </Project>
