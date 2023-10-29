@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Linq;
-using System.ComponentModel;
 
 namespace VSON.Core
 {

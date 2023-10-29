@@ -1,4 +1,6 @@
-﻿namespace VSON.Core.Svg
+﻿using System.Drawing;
+
+namespace VSON.Core.Svg
 {
     public class SvgCircle : SvgBaseElement
     {
@@ -16,6 +18,8 @@
         {
             this.Style = style;
         }
+
+        public SvgCircle(PointF origin, double radius, SvgStyle style) : this(origin.X, origin.Y, radius, style) { }
         #endregion Constructors
 
         #region Properties

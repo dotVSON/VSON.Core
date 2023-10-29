@@ -17,6 +17,8 @@
 
         public SvgRectangle(System.Drawing.RectangleF rectangle, SvgStyle style = null) : this()
         {
+            this.X = rectangle.X;
+            this.Y = rectangle.Y;
             this.Width = rectangle.Width;
             this.Height = rectangle.Height;
             this.Style = style;

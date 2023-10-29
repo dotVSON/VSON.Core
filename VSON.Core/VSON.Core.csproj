@@ -50,11 +50,11 @@
     <Compile Include="Svg\SvgCircle.cs" />
     <Compile Include="Svg\SvgRectangle.cs" />
     <Compile Include="Svg\SvgStyle.cs" />
-    <Compile Include="Svg_Test.cs" />
     <Compile Include="Svg\SvgBaseElement.cs" />
     <Compile Include="VsonComponent.cs" />
     <Compile Include="VsonEnums.cs" />
     <Compile Include="VsonDocument.cs" />
+    <Compile Include="VsonGraph.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">

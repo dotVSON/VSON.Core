@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using VSON.Core;
 
 namespace VSON.Grasshopper.Components
 {
@@ -27,6 +28,7 @@ namespace VSON.Grasshopper.Components
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("Component", "C", "", GH_ParamAccess.item);
+            pManager.AddTextParameter("SVG", "SVG", "", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -36,6 +38,10 @@ namespace VSON.Grasshopper.Components
             {
                 object comp = GH_AbstractComponent.Deserialze<GH_AbstractComponent>(jsonText);
                 DA.SetData(0, comp);
+                if (comp is VsonComponent compoennt)
+                {
+                    DA.SetData(1, VsonComponent.DrawComponent(compoennt));
+                }
             }
         }
         #endregion Methods

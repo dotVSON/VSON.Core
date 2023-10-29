@@ -1,5 +1,4 @@
 using System.Drawing;
-using VSON.Core.Svg;
 
 namespace VSON.Core.Svg.Tests
 {
