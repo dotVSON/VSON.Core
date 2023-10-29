@@ -8,7 +8,7 @@ using System.Linq;
 namespace VSON.Core
 {
     [Serializable]
-    public class VsonDocument
+    public class VsonDocument_Old
     {
         #region Properties
         public string Name { get; set; }
@@ -21,18 +21,18 @@ namespace VSON.Core
 
         public string FilePath { get; set; }
 
-        public List<VsonComponent> Components { get; set; }
+        public List<Component> Components { get; set; }
         
         public IEnumerable<Guid> ComponentIDs { get => this.Components.Select(component => component.ComponentGuid); }
         #endregion Properties
 
         #region Methods
-        public static T Deserialize<T>(string json) where T : VsonDocument
+        public static T Deserialize<T>(string json) where T : VsonDocument_Old
         {
             return JsonConvert.DeserializeObject<T>(json);
         }
 
-        public static T DeserializeFromFile<T>(string path) where T : VsonDocument
+        public static T DeserializeFromFile<T>(string path) where T : VsonDocument_Old
         {
             if (File.Exists(path))
             {

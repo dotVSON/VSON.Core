@@ -1,6 +1,6 @@
 ﻿namespace VSON.Core
 {
-    public enum VsonComponentType
+    public enum ComponentType
     { 
         MissingComponent = -1,
         GenericComponent = 0,
@@ -8,7 +8,7 @@
         GrasshopperComponent = 2
     }
 
-    public enum VsonDiffState
+    public enum DiffState
     { 
         Undefined = -1,
         None = 0,

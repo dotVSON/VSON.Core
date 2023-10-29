@@ -17,15 +17,15 @@ namespace VSON.Core
 
 
     [Serializable]
-    public class VsonComponent
+    public class Component
     {
         #region Fields
-        private static List<VsonComponentType> parentComponentTypes = new List<VsonComponentType> { VsonComponentType.GrasshopperComponent };
-        private static List<VsonComponentType> childComponentTypes = new List<VsonComponentType> { VsonComponentType.GrasshopperParam };
+        private static List<ComponentType> parentComponentTypes = new List<ComponentType> { ComponentType.GrasshopperComponent };
+        private static List<ComponentType> childComponentTypes = new List<ComponentType> { ComponentType.GrasshopperParam };
         #endregion Fields
 
         #region Properties
-        public virtual VsonComponentType ComponentType { get; set; }
+        public virtual ComponentType ComponentType { get; set; }
         
         public virtual string Type { get; set; }
         
@@ -43,9 +43,9 @@ namespace VSON.Core
         
         public bool Locked { get; set; }
 
-        public bool IsParam { get => VsonComponent.childComponentTypes.Contains(this.ComponentType); }
+        public bool IsParam { get => Component.childComponentTypes.Contains(this.ComponentType); }
 
-        public bool IsComponent { get => VsonComponent.parentComponentTypes.Contains(this.ComponentType); }
+        public bool IsComponent { get => Component.parentComponentTypes.Contains(this.ComponentType); }
         
         public virtual PointF Pivot { get; set; }
         
@@ -53,9 +53,9 @@ namespace VSON.Core
         
         public virtual SizeF Size { get => new SizeF(this.Bounds.Width, this.Bounds.Height);}
         
-        public virtual List<VsonComponent> InputParams { get; set; }
+        public virtual List<Component> InputParams { get; set; }
         
-        public virtual List<VsonComponent> OutputParams { get; set; }
+        public virtual List<Component> OutputParams { get; set; }
 
         public virtual List<Guid> SourceParams { get; set; }
 
@@ -63,12 +63,12 @@ namespace VSON.Core
         #endregion Properties
 
         #region Methods
-        public static T Deserialze<T>(string text) where T : VsonComponent
+        public static T Deserialze<T>(string text) where T : Component
         {
             return JsonConvert.DeserializeObject<T>(text);
         }
 
-        public static T DeserializeFromFile<T>(string path) where T: VsonComponent
+        public static T DeserializeFromFile<T>(string path) where T: Component
         {
             if (File.Exists(path))
             {
@@ -85,7 +85,7 @@ namespace VSON.Core
 
         public static JToken DeserializeToJToken(string text, string key = "ComponentType")
         {
-            return VsonComponent.DeserializeToJObject(text)[text] as JToken;
+            return Component.DeserializeToJObject(text)[text] as JToken;
         }
 
         public virtual string Serialize()
@@ -93,7 +93,7 @@ namespace VSON.Core
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
-        public static string DrawComponent(VsonComponent component)
+        public static string DrawComponent(Component component)
         {
             double
                 paramCircleRadius = 4,
@@ -123,7 +123,7 @@ namespace VSON.Core
                 Fill = "white",
             };
             
-            foreach (VsonComponent param in component.InputParams)
+            foreach (Component param in component.InputParams)
             {
                 if (inputParamWidth == 0)
                 {
@@ -140,7 +140,7 @@ namespace VSON.Core
                 svg.AppendLine(paramCircle.ToXML());
             }
 
-            foreach (VsonComponent param in component.OutputParams)
+            foreach (Component param in component.OutputParams)
             {
                 if (outputParamWidth == 0)
                 {
@@ -179,11 +179,11 @@ namespace VSON.Core
             return svg.ToString();
         }
 
-        public static string DrawComponent(string json) => DrawComponent(Deserialze<VsonComponent>(json));
+        public static string DrawComponent(string json) => DrawComponent(Deserialze<Component>(json));
 
         public void Test()
         {
-            foreach (VsonComponent param in this.InputParams)
+            foreach (Component param in this.InputParams)
             {
                 
             }
@@ -204,12 +204,12 @@ namespace VSON.Core
             return hash.ToString();
         }
 
-        public static bool QuickCheck(VsonComponent componentA, VsonComponent componentB)
+        public static bool QuickCheck(Component componentA, Component componentB)
         {
             return componentA.GetHashString().Equals(componentB.GetHashString());
         }
         
-        public static string DeepCheck(VsonComponent componentA, VsonComponent componentB)
+        public static string DeepCheck(Component componentA, Component componentB)
         {
             StringBuilder status = new StringBuilder();
 
