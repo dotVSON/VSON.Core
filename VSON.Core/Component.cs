@@ -110,8 +110,8 @@ namespace VSON.Core
             };
             SvgRectangle componentRectangle = new SvgRectangle(component.Bounds, componentStyle)
             {
-                xRadius = 5,
-                yRadius = 5,
+                XRadius = 5,
+                YRadius = 5,
             };
             svg.AppendLine(componentRectangle.ToXML());
 
@@ -171,8 +171,8 @@ namespace VSON.Core
                 Width = component.Bounds.Width - (inputParamWidth + outputParamWidth),
                 Height = component.Bounds.Height,
                 Style = nameStripStyle,
-                xRadius = 3,
-                yRadius = 3,
+                XRadius = 3,
+                YRadius = 3,
             };
             svg.AppendLine(nameStripRectangle.ToXML());
 
@@ -180,17 +180,6 @@ namespace VSON.Core
         }
 
         public static string DrawComponent(string json) => DrawComponent(Deserialze<Component>(json));
-
-        public void Test()
-        {
-            foreach (Component param in this.InputParams)
-            {
-                
-            }
-        }
-
-
-
         #endregion Methods
 
         #region DiffMethods

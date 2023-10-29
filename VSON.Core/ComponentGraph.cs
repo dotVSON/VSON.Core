@@ -1,32 +1,31 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VSON.Core
 {
     /// <summary>
     /// An Isolated collection of components that are connected.
-    /// 
-    /// A Document usually has one graph. Multiple graphs are also common.
     /// </summary>
     [Serializable]
-    public class Document
+    public class ComponentGraph
     {
         #region Constructors
         [JsonConstructor]
-        private Document() { }
+        private ComponentGraph() { }
 
-        public Document(string filePath) : this()
+        public ComponentGraph(string filePath) : this()
         {
 
         }
         #endregion Constructors
 
         #region Properties
+        public Dictionary<Guid, Component> ComponentTable { get; private set; }
         
+        public Dictionary<Guid, Component> ParamTable { get; private set; }
+
+        public Dictionary<Guid, Wire> WireTable { get; private set; }
 
         
         #endregion Properties

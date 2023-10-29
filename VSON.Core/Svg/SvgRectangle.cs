@@ -11,8 +11,8 @@
             this.Width = width;
             this.Height = height;
             this.Style = style;
-            this.xRadius = xRadius;
-            this.yRadius = yRadius;
+            this.XRadius = xRadius;
+            this.YRadius = yRadius;
         }
 
         public SvgRectangle(System.Drawing.RectangleF rectangle, SvgStyle style = null) : this()
@@ -33,12 +33,10 @@
         public double Width { get; set; } = 100;
         
         public double Height { get; set; } = 100;
-        
-        public SvgStyle Style { get; set; } = null;
 
-        public double xRadius { get; set; } = 0;
+        public double XRadius { get; set; } = 0;
 
-        public double yRadius { get; set; } = 0;
+        public double YRadius { get; set; } = 0;
         #endregion Properties
 
         #region Methods
@@ -48,8 +46,8 @@
                 $" <rect" +
                 $" x=\"{this.X}\"" +
                 $" y=\"{this.Y}\"" +
-                $" rx=\"{this.xRadius}\"" +
-                $" ry=\"{this.yRadius}\"" +
+                $" rx=\"{this.XRadius}\"" +
+                $" ry=\"{this.YRadius}\"" +
                 $" width=\"{this.Width}\"" +
                 $" height=\"{this.Height}\"" +
                 $" style=\"{this.Style.ToXML()}\"" +
