@@ -1,0 +1,19 @@
+﻿
+Component:
+Belongs to a Document
+What looks like a component on the canvas.
+It can be an instance of IGH_Component, or IGH_Param
+Can have Message Property
+Cannot have Graft / Simplify Attribute * IGH_Param might be different
+
+Parameter:
+Belongs to a Document
+Cannot be drawn by itself, always belongs to a Component.
+Can only be an instance of IGH_Param.
+Cannot have Message Attribute.
+Can have Graft / Simplify Attribute
+
+Wire:
+Belongs to a Document
+Between two Parameters only.
+Can find Component via Parameter.Parent property

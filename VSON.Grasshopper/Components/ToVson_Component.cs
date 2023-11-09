@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using VSON;
 using Grasshopper.Kernel;
-using Rhino.Geometry;
 
 namespace VSON.Grasshopper.Components
 {

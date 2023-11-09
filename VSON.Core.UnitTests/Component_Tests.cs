@@ -9,7 +9,7 @@
         }
 
         [Fact]
-        public void DrawComponent_FromVsonComponent()
+        public void DrawComponent_FromComponent()
         {
             throw new NotImplementedException ();
         }

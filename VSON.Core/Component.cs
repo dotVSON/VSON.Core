@@ -9,60 +9,55 @@ using VSON.Core.Svg;
 
 namespace VSON.Core
 {
-    [Serializable]
-    public class VsonComponentAttributes
+    public enum ComponentType
     {
-
+        MissingComponent = -1,
+        GenericComponent = 0,
+        GrasshopperParam = 1,
+        GrasshopperComponent = 2,
+        GrasshopperSpecialParam = 3,
     }
 
-
     [Serializable]
-    public class Component
+    public class Component : CanvasElement, IDiff
     {
-        #region Fields
-        private static List<ComponentType> parentComponentTypes = new List<ComponentType> { ComponentType.GrasshopperComponent };
-        private static List<ComponentType> childComponentTypes = new List<ComponentType> { ComponentType.GrasshopperParam };
-        #endregion Fields
+        #region Constructor
+        public Component()
+        {
+            this.InputParameters = new List<Parameter>();
+            this.OutputParameters = new List<Parameter>();
+        }
+        #endregion Constructor
 
         #region Properties
-        public virtual ComponentType ComponentType { get; set; }
-        
-        public virtual string Type { get; set; }
-        
-        public virtual Guid ComponentGuid { get; set; }
-        
-        public virtual Guid InstanceGuid { get; set; }
-        
-        public virtual string Name { get; set; }
-        
-        public virtual string NickName { get; set; }
-        
-        public virtual string Message { get; set; }
-        
-        public bool Hidden { get; set; }
-        
-        public bool Locked { get; set; }
+        public ComponentType ComponentType { get; set; }
 
-        public bool IsParam { get => Component.childComponentTypes.Contains(this.ComponentType); }
+        public DiffState DiffState { get; set; } = DiffState.Unknown;
 
-        public bool IsComponent { get => Component.parentComponentTypes.Contains(this.ComponentType); }
-        
+        public Guid ComponentGuid { get; set; }
+
+        public string Name { get; set; }
+
+        public string NickName { get; set; }
+
+        public string Message { get; set; }
+
+        public bool IsHidden { get; set; }
+
+        public bool IsLocked { get; set; }
+
+        public bool IsSpecial { get; set; }
+
         public virtual PointF Pivot { get; set; }
-        
-        public virtual RectangleF Bounds { get; set; }
-        
-        public virtual SizeF Size { get => new SizeF(this.Bounds.Width, this.Bounds.Height);}
-        
-        public virtual List<Component> InputParams { get; set; }
-        
-        public virtual List<Component> OutputParams { get; set; }
 
-        public virtual List<Guid> SourceParams { get; set; }
+        public virtual SizeF Size { get => new SizeF(this.Bounds.Width, this.Bounds.Height); }
 
-        public virtual List<Guid> DestinationParams { get; set; }
+        public List<Parameter> InputParameters { get; set; }
+
+        public List<Parameter> OutputParameters { get; set; }
         #endregion Properties
 
-        #region Methods
+        #region DeSerialization
         public static T Deserialze<T>(string text) where T : Component
         {
             return JsonConvert.DeserializeObject<T>(text);
@@ -88,12 +83,11 @@ namespace VSON.Core
             return Component.DeserializeToJObject(text)[text] as JToken;
         }
 
-        public virtual string Serialize()
-        {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
-        }
+        #endregion DeSerialization
 
-        public static string DrawComponent(Component component)
+        #region Methods
+
+        public override string DrawSVG()
         {
             double
                 paramCircleRadius = 4,
@@ -108,7 +102,7 @@ namespace VSON.Core
                 Stroke = "black",
                 StrokeWidth = 2,
             };
-            SvgRectangle componentRectangle = new SvgRectangle(component.Bounds, componentStyle)
+            SvgRectangle componentRectangle = new SvgRectangle(this.Bounds, componentStyle)
             {
                 XRadius = 5,
                 YRadius = 5,
@@ -123,7 +117,7 @@ namespace VSON.Core
                 Fill = "white",
             };
             
-            foreach (Component param in component.InputParams)
+            foreach (Parameter param in this.InputParameters)
             {
                 if (inputParamWidth == 0)
                 {
@@ -140,7 +134,7 @@ namespace VSON.Core
                 svg.AppendLine(paramCircle.ToXML());
             }
 
-            foreach (Component param in component.OutputParams)
+            foreach (Parameter param in this.OutputParameters)
             {
                 if (outputParamWidth == 0)
                 {
@@ -166,10 +160,10 @@ namespace VSON.Core
             };
             SvgRectangle nameStripRectangle = new SvgRectangle()
             {
-                X = component.Bounds.X + inputParamWidth,
-                Y = component.Bounds.Y,
-                Width = component.Bounds.Width - (inputParamWidth + outputParamWidth),
-                Height = component.Bounds.Height,
+                X = this.Bounds.X + inputParamWidth,
+                Y = this.Bounds.Y,
+                Width = this.Bounds.Width - (inputParamWidth + outputParamWidth),
+                Height = this.Bounds.Height,
                 Style = nameStripStyle,
                 XRadius = 3,
                 YRadius = 3,
@@ -178,8 +172,6 @@ namespace VSON.Core
 
             return svg.ToString();
         }
-
-        public static string DrawComponent(string json) => DrawComponent(Deserialze<Component>(json));
         #endregion Methods
 
         #region DiffMethods

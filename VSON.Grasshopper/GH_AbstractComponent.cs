@@ -1,77 +1,94 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using Grasshopper.Kernel;
 using VSON.Core;
 
 namespace VSON.Grasshopper
 {
-    public class GH_AbstractComponent : VsonComponent
+    public class GH_AbstractComponent : Component
     {
         #region Constructor
+
         private GH_AbstractComponent() : base() { }
 
-        private GH_AbstractComponent(IGH_DocumentObject documentObject) : this()
+        private GH_AbstractComponent(GH_AbstractDocument document) : this()
         {
-            this.ComponentType = VsonComponentType.GenericComponent;
-            this.Initialize(documentObject);
+            document.Register(this);
         }
-
-        public GH_AbstractComponent(IGH_Component component) : this(component as IGH_DocumentObject)
+             
+        public GH_AbstractComponent(GH_AbstractDocument document, IGH_Component component) : this(document)
         {
-            this.ComponentType = VsonComponentType.GrasshopperComponent;
-            this.Locked = component.Locked;
-            this.Hidden = component.Hidden;
             this.Message = component.Message;
+            this.IsHidden = component.Hidden;
+            this.IsLocked = component.Locked;
+            this.IsSpecial = false;
+            this.ComponentType = ComponentType.GrasshopperComponent;
 
-            foreach (IGH_Param param in component.Params.Input)
-            {
-                GH_AbstractComponent newParam = new GH_AbstractComponent(param);
-                this.InputParams.Add(newParam);
-            }
-
-            foreach (IGH_Param param in component.Params.Output)
-            {
-                GH_AbstractComponent newParam = new GH_AbstractComponent(param);
-                this.OutputParams.Add(newParam);
-            }
+            this.Initialize(component);
+            this.PopulateParameters(component);
         }
 
-        public GH_AbstractComponent(IGH_Param param) : this(param as IGH_DocumentObject)
+        public GH_AbstractComponent(GH_AbstractDocument document, IGH_Param parameter) : this(document)
         {
-            this.ComponentType = VsonComponentType.GrasshopperParam;
-            this.Locked = param.Locked;
-            this.Hidden = false;
+            this.Message = string.Empty;
+            this.IsHidden = false;
+            this.IsLocked = false;
+            this.IsSpecial = GH_AbstractParameter.IsStandaloneComponent(parameter);
+            this.ComponentType = this.IsSpecial ? ComponentType.GrasshopperSpecialParam : ComponentType.GenericComponent;
+
+            this.Initialize(parameter);
+            this.PopulateParameters(parameter);
         }
 
         #endregion Constructor
 
-        #region Methods
-        public static GH_AbstractComponent CreateFromDocumentObject(IGH_DocumentObject documentObject)
-        {
-            if (documentObject is IGH_Component component)
-            {
-                return new GH_AbstractComponent(component);
-            }
-            else if (documentObject is IGH_Param param)
-            {
-                return new GH_AbstractComponent(param);
-            }
-            else
-            {
-                return new GH_AbstractComponent(documentObject);
-            }
-        }
+        #region Methods  
         private void Initialize(IGH_DocumentObject documentObject)
         {
-            this.InputParams = new List<VsonComponent>();
-            this.OutputParams = new List<VsonComponent>();
-
-            this.Type = documentObject.GetType().FullName;
+            this.Type = this.GetType().FullName;
             this.ComponentGuid = documentObject.ComponentGuid;
             this.InstanceGuid = documentObject.InstanceGuid;
             this.Name = documentObject.Name;
             this.NickName = documentObject.NickName;
             this.Pivot = documentObject.Attributes.Pivot;
             this.Bounds = documentObject.Attributes.Bounds;
+        }
+
+        private void PopulateParameters(IGH_Param param)
+        {
+            GH_AbstractParameter parameter = new GH_AbstractParameter(this, param)
+            {
+                Component = this,
+                ParameterType = ParameterType.Relay,
+                Sources = param.Sources.Select(source => source.InstanceGuid).ToList(),
+                Targets = param.Recipients.Select(recipient => recipient.InstanceGuid).ToList(),
+            };
+            this.InputParameters.Add(parameter);
+            this.OutputParameters.Add(parameter);
+        }
+        private void PopulateParameters(IGH_Component component)
+        {
+            foreach (IGH_Param param in component.Params.Input)
+            {
+                GH_AbstractParameter parameter = new GH_AbstractParameter(this, param)
+                {
+                    Component = this,
+                    ParameterType = ParameterType.Input,
+                    Sources = param.Sources.Select(source => source.InstanceGuid).ToList(),
+                };
+                this.InputParameters.Add(parameter);
+            }
+
+            foreach (IGH_Param param in component.Params.Output)
+            {
+                GH_AbstractParameter parameter = new GH_AbstractParameter(this, param)
+                {
+                    Component = this,
+                    ParameterType = ParameterType.Output,
+                    Targets = param.Recipients.Select(recipient => recipient.InstanceGuid).ToList(),
+            };
+                
+                this.OutputParameters.Add(parameter);
+            }
         }
         #endregion Methods
     }

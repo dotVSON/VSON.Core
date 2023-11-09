@@ -29,7 +29,7 @@ namespace VSON.Grasshopper.Components
             string path = string.Empty;
             if (DA.GetData<string>(0, ref path))
             {
-                GH_AbstractDocument.Load(path, this.OnPingDocument());
+                //GH_AbstractDocument.Load(path, this.OnPingDocument());
 
                 // Remove this component
                 //this.OnPingDocument().RemoveObject(this, true);

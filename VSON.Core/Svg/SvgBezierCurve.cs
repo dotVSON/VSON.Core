@@ -26,13 +26,10 @@ namespace VSON.Core.Svg
         public PointF C1 { get; private set; } = PointF.Empty;
 
         public PointF C2 { get; private set; } = PointF.Empty;
-        
-        public SvgStyle Style { get; set; } = null;
-
         #endregion Properties
 
         #region Methods
-        public void GenerateControlPoints(float projectionFactor = 150)
+        public void GenerateControlPoints(int projectionFactor = 150)
         {
             if (this.PointAtStart.IsEmpty == false && this.PointAtEnd.IsEmpty == false)
             {

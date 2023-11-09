@@ -36,11 +36,11 @@ namespace VSON.Grasshopper.Components
                 string path = string.Empty;
                 if (DA.GetData<string>(1, ref path))
                 {
-                    vsonDoc.Save(path);
+                    //vsonDoc.Save(path);
                 }
                 else
                 {
-                    vsonDoc.Save();
+                    //vsonDoc.Save();
                 }
             }
         }

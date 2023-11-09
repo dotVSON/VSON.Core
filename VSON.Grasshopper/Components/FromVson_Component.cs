@@ -38,9 +38,9 @@ namespace VSON.Grasshopper.Components
             {
                 object comp = GH_AbstractComponent.Deserialze<GH_AbstractComponent>(jsonText);
                 DA.SetData(0, comp);
-                if (comp is VsonComponent compoennt)
+                if (comp is Component component)
                 {
-                    DA.SetData(1, VsonComponent.DrawComponent(compoennt));
+                    DA.SetData(1, component.DrawSVG());
                 }
             }
         }

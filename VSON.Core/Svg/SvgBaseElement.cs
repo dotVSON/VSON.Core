@@ -2,7 +2,7 @@
 {
     public abstract class SvgBaseElement
     {
-        public SvgStyle Style { get; set; }
+        public SvgStyle Style { get; set; } = null;
 
         public abstract string ToXML();
     }

@@ -28,8 +28,6 @@ namespace VSON.Core.Svg
         public double Y { get; set; } = 50;
         
         public double Radius { get; set; } = 10;
-
-        public SvgStyle Style { get; set; } = null;
         #endregion Properties
 
         #region Methods

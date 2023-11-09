@@ -33,7 +33,7 @@ namespace VSON.Grasshopper
             if (args.Modified == false)
             {
                 GH_AbstractDocument vsonDoc = new GH_AbstractDocument(args.Document);
-                vsonDoc.Save();
+                //vsonDoc.Save();
             }
         }
     }
