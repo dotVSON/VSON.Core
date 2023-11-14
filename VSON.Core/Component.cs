@@ -36,6 +36,8 @@ namespace VSON.Core
 
         public Guid ComponentGuid { get; set; }
 
+        public string Icon { get; set; }
+
         public string Name { get; set; }
 
         public string NickName { get; set; }
@@ -86,7 +88,6 @@ namespace VSON.Core
         #endregion DeSerialization
 
         #region Methods
-
         public override string DrawSVG()
         {
             double
@@ -126,8 +127,8 @@ namespace VSON.Core
 
                 SvgCircle paramCircle = new SvgCircle()
                 {
-                    X = param.Bounds.X-paramStyle.StrokeWidth,
-                    Y = param.Bounds.Bottom - (param.Bounds.Height * 0.5), 
+                    X = param.Bounds.X - paramStyle.StrokeWidth,
+                    Y = param.Bounds.Bottom - param.Bounds.Height * 0.5, 
                     Radius = paramCircleRadius, 
                     Style = paramStyle,
                 };

@@ -9,13 +9,8 @@ namespace VSON.Grasshopper
         #region Constructor
 
         private GH_AbstractComponent() : base() { }
-
-        private GH_AbstractComponent(GH_AbstractDocument document) : this()
-        {
-            document.Register(this);
-        }
-             
-        public GH_AbstractComponent(GH_AbstractDocument document, IGH_Component component) : this(document)
+            
+        public GH_AbstractComponent(GH_AbstractDocument document, IGH_Component component) : this()
         {
             this.Message = component.Message;
             this.IsHidden = component.Hidden;
@@ -23,11 +18,11 @@ namespace VSON.Grasshopper
             this.IsSpecial = false;
             this.ComponentType = ComponentType.GrasshopperComponent;
 
-            this.Initialize(component);
+            this.Initialize(document, component);
             this.PopulateParameters(component);
         }
 
-        public GH_AbstractComponent(GH_AbstractDocument document, IGH_Param parameter) : this(document)
+        public GH_AbstractComponent(GH_AbstractDocument document, IGH_Param parameter) : this()
         {
             this.Message = string.Empty;
             this.IsHidden = false;
@@ -35,22 +30,24 @@ namespace VSON.Grasshopper
             this.IsSpecial = GH_AbstractParameter.IsStandaloneComponent(parameter);
             this.ComponentType = this.IsSpecial ? ComponentType.GrasshopperSpecialParam : ComponentType.GenericComponent;
 
-            this.Initialize(parameter);
+            this.Initialize(document, parameter);
             this.PopulateParameters(parameter);
         }
 
         #endregion Constructor
 
         #region Methods  
-        private void Initialize(IGH_DocumentObject documentObject)
+        private void Initialize(GH_AbstractDocument document, IGH_DocumentObject documentObject)
         {
-            this.Type = this.GetType().FullName;
+            this.Type = documentObject.GetType().FullName;
             this.ComponentGuid = documentObject.ComponentGuid;
             this.InstanceGuid = documentObject.InstanceGuid;
             this.Name = documentObject.Name;
             this.NickName = documentObject.NickName;
             this.Pivot = documentObject.Attributes.Pivot;
             this.Bounds = documentObject.Attributes.Bounds;
+
+            document.Register(this);
         }
 
         private void PopulateParameters(IGH_Param param)
@@ -65,6 +62,7 @@ namespace VSON.Grasshopper
             this.InputParameters.Add(parameter);
             this.OutputParameters.Add(parameter);
         }
+
         private void PopulateParameters(IGH_Component component)
         {
             foreach (IGH_Param param in component.Params.Input)
@@ -85,7 +83,7 @@ namespace VSON.Grasshopper
                     Component = this,
                     ParameterType = ParameterType.Output,
                     Targets = param.Recipients.Select(recipient => recipient.InstanceGuid).ToList(),
-            };
+                };
                 
                 this.OutputParameters.Add(parameter);
             }

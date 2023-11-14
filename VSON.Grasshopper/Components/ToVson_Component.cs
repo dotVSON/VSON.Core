@@ -30,16 +30,16 @@ namespace VSON.Grasshopper.Components
         {
             if (this.Params.Input[0].SourceCount > 0)
             {
+                GH_AbstractDocument document = new GH_AbstractDocument(this.OnPingDocument());
                 IGH_DocumentObject documentObject = this.Params.Input[0].Sources[0].Attributes.GetTopLevel.DocObject;
-                
                 if (documentObject is IGH_Component component)
                 {
-                    GH_AbstractComponent abstractComponent = new GH_AbstractComponent(component);
+                    GH_AbstractComponent abstractComponent = new GH_AbstractComponent(document, component);
                     DA.SetData(0, abstractComponent.Serialize());
                 }
                 else if (documentObject is IGH_Param param)
                 {
-                    GH_AbstractComponent abstractComponent = new GH_AbstractComponent(param);
+                    GH_AbstractComponent abstractComponent = new GH_AbstractComponent(document, param);
                     DA.SetData(0, abstractComponent.Serialize());
                 }
             }

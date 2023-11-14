@@ -14,7 +14,7 @@ namespace VSON.Core.Svg
             this.PointAtEnd = pointAtEnd;
             this.Style = style;
 
-            this.GenerateControlPoints();
+            this.GenerateControlPoints(50);
         }
         #endregion Constructors
 
@@ -29,7 +29,7 @@ namespace VSON.Core.Svg
         #endregion Properties
 
         #region Methods
-        public void GenerateControlPoints(int projectionFactor = 150)
+        public void GenerateControlPoints(float projectionFactor = 150)
         {
             if (this.PointAtStart.IsEmpty == false && this.PointAtEnd.IsEmpty == false)
             {

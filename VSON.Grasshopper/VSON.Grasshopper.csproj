@@ -27,8 +27,8 @@
     <StartAction>Program</StartAction>
   </PropertyGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+  <!--<Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="if $(Configuration) == Debug ( Copy &quot;$(TargetPath)&quot; &quot;%25AppData%25\Grasshopper\Libraries\VSON.Grasshopper.gha&quot; )" />
-  </Target>
+  </Target>-->
 
 </Project>

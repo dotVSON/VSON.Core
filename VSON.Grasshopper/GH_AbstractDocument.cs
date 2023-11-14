@@ -31,7 +31,8 @@ namespace VSON.Grasshopper
             this.InstanceGuid = document.DocumentID;
             this.FilePath = document.FilePath;
 
-            this.PopulateGraph(document);
+            this.PopulateComponentTable(document);
+            this.PopulateWireTable();
         }
 
         #endregion Constructor
@@ -49,60 +50,49 @@ namespace VSON.Grasshopper
             {
                 if (docObject is IGH_Component docComponent)
                 {
-                    GH_AbstractComponent component = new GH_AbstractComponent(this.ActiveDocument as GH_AbstractDocument, docComponent);
-                    this.Register(component);
+                    GH_AbstractComponent component = new GH_AbstractComponent(this, docComponent);
                 }
 
                 else if (docObject is IGH_Param docParam)
                 {
                     if (GH_AbstractParameter.IsStandaloneComponent(docParam))
                     {
-                        GH_AbstractComponent component = new GH_AbstractComponent(this.ActiveDocument as GH_AbstractDocument, docParam);
-                        this.Register(component);
+                        GH_AbstractComponent component = new GH_AbstractComponent(this, docParam);
                     }
                     else
                     {
                         // Code should never go here.
-                        //GH_AbstractParameter parameter = new GH_AbstractParameter(docParam);
+                        throw new NotImplementedException("ScriptError");
                     }
                 }
 
                 else // Neither here
                 {
+                    throw new NotImplementedException("ScriptError");
                     // Are there any other objects?
                     // If yes, What happens to them?
                 }
             }
-
-
-            /*foreach (IGH_DocumentObject documentObject in document.ActiveObjects())
-            {
-                this.Components.Add(GH_AbstractComponent.CreateFromDocumentObject(documentObject));
-            }*/
-
         }
 
-        public void PopulateWireTable() // Unclean
+        public void PopulateWireTable()
         {
+
             foreach (GH_AbstractComponent component in this.ComponentTable.Values.Cast<GH_AbstractComponent>())
             {
-                foreach (GH_AbstractParameter parameter in component.InputParameters.Cast<GH_AbstractParameter>())
-                {
-                    foreach (Guid id in parameter.Sources)
-                    {
-                        //Parameter sourceParameter = this.ParameterTable[id];
-                        Wire incomingWire = new Wire(this, id, parameter.InstanceGuid);
-                        this.Register(incomingWire);
-                    }
-                }
-
                 foreach (GH_AbstractParameter parameter in component.OutputParameters.Cast<GH_AbstractParameter>())
                 {
                     foreach (Guid id in parameter.Targets)
                     {
-                        //Parameter targetParameter = this.ParameterTable[id];
-                        Wire outgoingWire = new Wire(this, parameter.InstanceGuid, id);
-                        this.Register(outgoingWire);
+                        Wire incomingWire = new Wire(this, parameter.InstanceGuid, id);
+                    }
+                }
+
+                foreach (GH_AbstractParameter parameter in component.InputParameters.Cast<GH_AbstractParameter>())
+                {
+                    foreach (Guid id in parameter.Sources)
+                    {
+                        Wire incomingWire = new Wire(this, id, parameter.InstanceGuid);
                     }
                 }
             }

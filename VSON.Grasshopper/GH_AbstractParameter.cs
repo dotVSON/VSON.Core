@@ -12,33 +12,29 @@ namespace VSON.Grasshopper
         [JsonConstructor]
         private GH_AbstractParameter() { }
 
-        public GH_AbstractParameter(GH_AbstractComponent component) : this()
-        {
-            this.Component = component;
-            this.Component.ActiveDocument.Register(this);
-        }
-
-        public GH_AbstractParameter(GH_AbstractComponent component, IGH_Param parameter) : this(component)
+        public GH_AbstractParameter(GH_AbstractComponent component, IGH_Param parameter) : this()
         {
             this.Message = string.Empty;
             this.IsHidden = false;
             this.IsLocked = false;
 
-            this.Initialize(parameter);
+            this.Initialize(component, parameter);
         }
 
         #endregion Constructor
 
         #region Methods
-        private void Initialize(IGH_DocumentObject documentObject)
+        private void Initialize(GH_AbstractComponent component, IGH_DocumentObject documentObject)
         {
-            this.Type = this.GetType().FullName;
+            this.Type = documentObject.GetType().FullName;
             this.ComponentGuid = documentObject.ComponentGuid;
             this.InstanceGuid = documentObject.InstanceGuid;
             this.Name = documentObject.Name;
             this.NickName = documentObject.NickName;
             this.Pivot = documentObject.Attributes.Pivot;
             this.Bounds = documentObject.Attributes.Bounds;
+
+            component.ActiveDocument.Register(this);
         }
 
         internal static bool IsStandaloneComponent(IGH_Param param)

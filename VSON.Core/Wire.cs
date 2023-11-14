@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Drawing;
 using VSON.Core.Svg;
 
 namespace VSON.Core
@@ -13,17 +14,11 @@ namespace VSON.Core
 
         public Wire(Document document, Guid sourceGuid, Guid targetGuid) : this()
         {
-            document.Register(this);
-
             this.SourceGuid = sourceGuid;
             this.TargetGuid = targetGuid;
-        }
 
-        /*public Wire(Parameter sourceParameter, Parameter targetParameter) : this()
-        {
-            this.SourceParameter = sourceParameter;
-            this.TargetParameter = targetParameter;
-        }*/
+            this.Initialize(document);
+        }
         #endregion Constructor
 
         #region Properties
@@ -38,12 +33,15 @@ namespace VSON.Core
 
         public Parameter TargetParameter { get => this.ActiveDocument.ParameterTable[this.TargetGuid]; }
 
-        //[JsonIgnore] public Component SourceComponent { get => this.SourceParameter?.Component; }
-
-        //[JsonIgnore] public Component TargetComponent { get => this.TargetParameter?.Component; }
         #endregion Properties
 
         #region Methods
+        public void Initialize(Document document)
+        {
+            this.InstanceGuid = Guid.NewGuid();
+            document.Register(this);
+        }
+
         public override string DrawSVG()
         {
             SvgStyle wireStyle = new SvgStyle()
@@ -53,13 +51,30 @@ namespace VSON.Core
                 StrokeWidth = 2,
             };
 
-            SvgBezierCurve wireCurve = new SvgBezierCurve()
+            PointF pointAtStart = new PointF()
             {
-                PointAtStart = this.SourceParameter.Pivot,
-                PointAtEnd = this.TargetParameter.Pivot,
-                Style = wireStyle,
+                X = (float)(this.SourceParameter.Bounds.Right + 2),
+                Y = (float)(this.SourceParameter.Bounds.Bottom - this.SourceParameter.Bounds.Height * 0.5),
             };
+            PointF pointAtEnd = new PointF()
+            {
+                X = (float)(this.TargetParameter.Bounds.X - 2),
+                Y = (float)(this.TargetParameter.Bounds.Bottom - this.TargetParameter.Bounds.Height * 0.5)
+            };
+
+            SvgBezierCurve wireCurve = new SvgBezierCurve(pointAtStart, pointAtEnd, wireStyle);
             return wireCurve.ToXML();
+
+            /*SvgLine wireLine = new SvgLine()
+            {
+                X1 = this.SourceParameter.Bounds.Right + 2,
+                Y1 = this.SourceParameter.Bounds.Bottom - this.SourceParameter.Bounds.Height * 0.5,
+                
+                X2 = this.TargetParameter.Bounds.X - 2,
+                Y2 = this.TargetParameter.Bounds.Bottom - this.TargetParameter.Bounds.Height * 0.5,
+
+                Style = wireStyle,
+            };*/
         }
         #endregion Methods
     }
