@@ -62,19 +62,16 @@ namespace VSON.Core
                 Y = (float)(this.TargetParameter.Bounds.Bottom - this.TargetParameter.Bounds.Height * 0.5)
             };
 
-            SvgBezierCurve wireCurve = new SvgBezierCurve(pointAtStart, pointAtEnd, wireStyle);
-            return wireCurve.ToXML();
-
-            /*SvgLine wireLine = new SvgLine()
+            if (Math.Abs(pointAtStart.Y - pointAtEnd.Y) < 50)
             {
-                X1 = this.SourceParameter.Bounds.Right + 2,
-                Y1 = this.SourceParameter.Bounds.Bottom - this.SourceParameter.Bounds.Height * 0.5,
-                
-                X2 = this.TargetParameter.Bounds.X - 2,
-                Y2 = this.TargetParameter.Bounds.Bottom - this.TargetParameter.Bounds.Height * 0.5,
-
-                Style = wireStyle,
-            };*/
+                SvgLine wireLine = new SvgLine(pointAtStart, pointAtEnd, wireStyle);
+                return wireLine.ToXML();
+            }
+            else
+            {
+                SvgBezierCurve wireCurve = new SvgBezierCurve(pointAtStart, pointAtEnd, wireStyle);
+                return wireCurve.ToXML();
+            }
         }
         #endregion Methods
     }

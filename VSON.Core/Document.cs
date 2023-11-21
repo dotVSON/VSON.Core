@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -51,6 +52,13 @@ namespace VSON.Core
         #endregion Properties
 
         #region Methods
+        public static string GetValueFromConfig(string key)
+        {
+            Console.WriteLine("Hello");
+            Console.WriteLine("Bye");
+            
+            return ConfigurationManager.AppSettings[key];
+        }
         public string SaveAsDocument()
         {
             if (File.Exists(this.FilePath))
@@ -77,6 +85,11 @@ namespace VSON.Core
                 return true;
             }
             return false;
+        }
+        
+        public virtual void LoadFromDocument(string path, object document = null)
+        {
+            throw new NotImplementedException();
         }
 
         public void Register(Parameter parameter)
@@ -135,8 +148,7 @@ namespace VSON.Core
             string title =
                 $" <svg" +
                 $" xmlns=\"http://www.w3.org/2000/svg\"" +
-                $" width=\"{canvasBounds.Width}\"" +
-                $" height=\"{canvasBounds.Height}\"" +
+                $" width=\"100%\" height=\"100%\"" +
                 $" viewBox=\"{canvasBounds.Left} {canvasBounds.Top} {canvasBounds.Width} {canvasBounds.Height}\"" +
                 $" fill=\"grey\" >";
             svg.AppendLine(title);

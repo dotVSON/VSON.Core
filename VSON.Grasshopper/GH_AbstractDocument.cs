@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Linq;
 using VSON.Core;
+using VSON.Grasshopper.Components;
 
 namespace VSON.Grasshopper
 {
@@ -38,6 +39,44 @@ namespace VSON.Grasshopper
         #endregion Constructor
 
         #region Methods
+        public override void LoadFromDocument(string path, object documentObject = null)
+        {
+            if (documentObject is GH_Document document)
+            {
+                if (document == null)
+                {
+                    document = new GH_Document();
+                    Instances.DocumentServer.AddDocument(document);
+                }
+
+                GH_AbstractDocument vsonDocument = JsonConvert.DeserializeObject<GH_AbstractDocument>(path);
+
+                foreach (Component component in vsonDocument.ComponentTable.Values)
+                {
+                    IGH_DocumentObject emittedObject = Instances.ComponentServer.EmitObject(component.ComponentGuid);
+                    if (emittedObject != null)
+                    {
+                        document.AddObject(emittedObject, false);
+                        emittedObject.Attributes.Pivot = component.Pivot;
+                        // Restore all other properties, attributes, etc.
+                        // Restore Wires in the end.
+                    }
+                }
+
+                /*foreach (Wire wire in vsonDocument.WireTable.Values)
+                {
+                    // Connect Wires
+                }*/
+
+                document.ScheduleSolution(1);
+            }
+            else
+            {
+                throw new ArgumentException("Object needs to be of type Grasshopper.Kernel.GH_Document.");
+                
+            }
+        }
+
         public void PopulateGraph(GH_Document document)
         {
             this.PopulateComponentTable(document);
