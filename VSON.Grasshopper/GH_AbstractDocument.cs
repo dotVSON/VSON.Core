@@ -16,7 +16,7 @@ namespace VSON.Grasshopper
         [JsonConstructor]
         private GH_AbstractDocument() : base()
         {
-            this.Type = this.GetType().FullName;
+            this.Discriminator = this.GetType().FullName;
             GH_Canvas activeCanvas = Instances.ActiveCanvas;
             this.CanvasZoom = activeCanvas.Viewport.Zoom;
             this.CanvasLocation = new System.Drawing.SizeF(activeCanvas.Viewport.VisibleRegion.X, activeCanvas.Viewport.VisibleRegion.Y);

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using VSON.Core;
+using System.Configuration;
 //using VSON.Core.Diff;
 
 using System.Xml.Linq;
@@ -24,24 +26,24 @@ namespace VSON.Core
 
         public static DiffState CompareChanges(Component componentA, Component componentB)
         {
-            DiffState state = DiffState.None;
+            DiffState state = DiffState.NoChange;
 
             // Check Class Type
             if(componentA.ComponentGuid != componentB.ComponentGuid)
             {
-                return DiffState.Undefined;
+                return DiffState.Unknown;
             }
 
             // Check Position
             if (componentA.Pivot != componentB.Pivot)
             {
-                state = DiffState.Moved;
+                state = DiffState.CanvasPositionChanged;
             }
 
             // Check Attributes
             if (AttributesChanged(componentA, componentB) == false)
             {
-                state = DiffState.Modified;
+                state = DiffState.AttributesChanged;
             }
 
             return state;
@@ -67,8 +69,8 @@ namespace VSON.Core
             Console.WriteLine($"Changes: {CompareChanges(componentA, componentB)}");*/
 
 
-            VsonDocument_Old documentA = VsonDocument_Old.DeserializeFromFile<VsonDocument_Old>(@"A:\Repositories\ModfiveLabs\VSON\.local\Trials\Sample_01_SerializeAdditionComponent.vson");
-            VsonDocument_Old documentB = VsonDocument_Old.DeserializeFromFile<VsonDocument_Old>(@"A:\Repositories\ModfiveLabs\VSON\.local\Trials\Sample_02_SerializeAdditionComponent.vson");
+            //Document documentA = Document.DeserializeFromFile<Document>(@"A:\Repositories\ModfiveLabs\VSON\.local\Trials\Sample_01_SerializeAdditionComponent.vson");
+            //Document documentB = Document.DeserializeFromFile<Document>(@"A:\Repositories\ModfiveLabs\VSON\.local\Trials\Sample_02_SerializeAdditionComponent.vson");
 
             //DocumentComparer comparer = new DocumentComparer(documentA, documentB);
             //List<DiffChange> changes = comparer.Compare();
@@ -121,6 +123,8 @@ namespace VSON.Core
         static void Main(string[] args)
         {
             //Program.PrivateMethod();\
+            string value = Document.GetValueFromConfig("GH_DefaultComponentColor");
+            Console.WriteLine(value);
         }
     }
 }

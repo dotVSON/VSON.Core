@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.Text;
 
 namespace VSON.Core.Svg
 {
@@ -35,6 +37,8 @@ namespace VSON.Core.Svg
         {
             return
                 $" <line" +
+                $" class=\"{this.Class}\"" +
+                $" id=\"{this.Id}\"" +
                 $" x1=\"{this.X1}\"" +
                 $" y1=\"{this.Y1}\"" +
                 $" x2=\"{this.X2}\"" +

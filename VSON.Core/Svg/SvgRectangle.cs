@@ -45,6 +45,8 @@
         {
             return
                 $" <rect" +
+                $" class=\"{this.Class}\"" +
+                $" id=\"{this.Id}\"" +
                 $" x=\"{this.X}\"" +
                 $" y=\"{this.Y}\"" +
                 $" rx=\"{this.XRadius}\"" +

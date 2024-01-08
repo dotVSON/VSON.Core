@@ -56,6 +56,8 @@ namespace VSON.Core.Svg
         {
             return
                 $" <path d=\"" +
+                $" class=\"{this.Class}\"" +
+                $" id=\"{this.Id}\"" +
                 $" M {this.PointAtStart.X} {this.PointAtStart.Y}" +
                 $" C {this.C1.X} {this.C1.Y}, {this.C2.X} {this.C2.Y}, {this.PointAtEnd.X} {this.PointAtEnd.Y}\"" +
                 $" style=\"{this.Style.ToXML()}\"" +

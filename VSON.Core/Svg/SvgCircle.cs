@@ -35,6 +35,8 @@ namespace VSON.Core.Svg
         {
             return
                 $" <circle" +
+                $" class=\"{this.Class}\"" +
+                $" id=\"{this.Id}\"" +
                 $" cx=\"{this.X}\"" +
                 $" cy=\"{this.Y}\"" +
                 $" r=\"{this.Radius}\"" +

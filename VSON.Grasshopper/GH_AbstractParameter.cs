@@ -26,7 +26,7 @@ namespace VSON.Grasshopper
         #region Methods
         private void Initialize(GH_AbstractComponent component, IGH_DocumentObject documentObject)
         {
-            this.Type = documentObject.GetType().FullName;
+            this.Discriminator = documentObject.GetType().FullName;
             this.ComponentGuid = documentObject.ComponentGuid;
             this.InstanceGuid = documentObject.InstanceGuid;
             this.Name = documentObject.Name;
